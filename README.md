@@ -31,10 +31,8 @@ Friendly competition is encouraged, but remember, our aim is to be the best, not
 
 ## Socials
 Connect with us on our social media platforms:
-- [GitHub](https://github.com/yourorg)
-- [LinkedIn](https://www.linkedin.com/yourorg)
-- [Twitter](https://twitter.com/yourorg)
-- [Instagram](https://www.instagram.com/yourorg)
+- [GitHub](https://github.com/Falcon-s-Hackathon-Community)
+- [Instagram](https://www.instagram.com/thefalcons.in_/)
 
 ## Recent Hackathons & Activities
 Stay tuned for updates on our latest hackathons and activities. 
