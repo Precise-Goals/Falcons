@@ -37,10 +37,9 @@ Connect with us on our social media platforms:
 Stay tuned for updates on our latest hackathons and activities. 
 Here are some highlights:
 
-| ![11](https://github.com/user-attachments/assets/97223715-5672-4bfd-b68c-c160b8bdc737) | ![12](https://github.com/user-attachments/assets/c7d09ce6-8462-4927-aaf8-80ac188a3a17) |
+| ![11](https://github.com/user-attachments/assets/97223715-5672-4bfd-b68c-c160b8bdc737) | ![12](https://github.com/user-attachments/assets/c7d09ce6-8462-4927-aaf8-80ac188a3a17) | ![13](https://github.com/user-attachments/assets/80f53d8a-1de2-4df7-bdb5-ea3185470d3a) |
 |:---:|:---:|
-| ![13](https://github.com/user-attachments/assets/80f53d8a-1de2-4df7-bdb5-ea3185470d3a) | ![14](https://github.com/user-attachments/assets/28402b16-5593-4806-81a0-afa965d565e1) |
-| ![15](https://github.com/user-attachments/assets/74f18edd-1a2f-4bc7-a7bf-9c16e47202e6) | 
+|  ![14](https://github.com/user-attachments/assets/28402b16-5593-4806-81a0-afa965d565e1) | ![15](https://github.com/user-attachments/assets/74f18edd-1a2f-4bc7-a7bf-9c16e47202e6) | 
 
 
 
