@@ -9,5 +9,8 @@ export default defineConfig({
       external: ["react-router-dom"],
     },
     outDir: "dist",
+    optimizeDeps: {
+      include: ["tslib"],
+    },
   },
 });
