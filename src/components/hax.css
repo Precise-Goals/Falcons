@@ -1,0 +1,93 @@
+.hhead {
+  padding: 5% 10%;
+}
+
+.hhead p {
+  font-family: "Montserrat";
+  font-style: italic;
+  font-size: 40px;
+  font-weight: 200;
+}
+
+.hhead h1 {
+  font-size: 65px;
+  font-style: italic;
+  line-height: 115%;
+  font-weight: 800;
+  font-family: "Poppins";
+}
+.hcard {
+  width: 49%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+  background: white;
+  transform: skew(355deg, 0deg);
+  padding: 2% 4%;
+}
+
+.hcontainer {
+  background: white;
+  padding: 3% 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.rcr h1 {
+  font-size: 30px;
+}
+
+.rcr p {
+  font-family: "Poppins";
+  width: 100%;
+  font-style: italic;
+  font-size: 15px;
+  margin: 1em 0;
+}
+.lcr img {
+  border-radius: 2rem;
+  width: 100%;
+}
+.rcr span {
+  font-weight: 600;
+  color: darkgray;
+  font-size: 18px;
+}
+
+.pseud {
+  width: 100%;
+  position: absolute;
+  height: 90%;
+  top: -40%;
+  left: 0;
+  z-index: 1;
+  transform: skew(0deg, 11deg);
+  background: url(https://bs.uenicdn.com/blog/wp-content/uploads/2018/04/giphy.gif);
+}
+
+.lcr,
+.rcr {
+  z-index: 3;
+  position: relative;
+}
+.lcr {
+  width: 100%;
+  overflow: hidden;
+  filter: drop-shadow(0px 0px 10px #00000045);
+}
+
+.rcr {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+}
+.rcr h1 {
+  filter: invert(1);
+  width: 100%;
+}
