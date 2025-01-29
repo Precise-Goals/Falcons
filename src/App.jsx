@@ -5,7 +5,7 @@ import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 import { Hero } from "./components/hero";
 import { Navbar } from "./components/navbar";
 import { Hackathon } from "./components/hackathons";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "../node_modules/react-router-dom";
 
 export const Frontpage = () => {
   return (
