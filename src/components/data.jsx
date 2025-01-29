@@ -6,7 +6,7 @@ export const hackathonData = [
       "Join the Falcons Programming Competition on December 7th, 2024! Challenge yourself in C/C++, Java, and Python, showcase your coding skills",
     img: "https://s3.amazonaws.com/hr-assets/0/1733574900-085c527931-F1.png",
     date: "7th December",
-    color: "https://bs.uenicdn.com/blog/wp-content/uploads/2018/04/giphy.gif",
+    color: "https://i.pinimg.com/originals/cf/2c/a4/cf2ca4f35eff08e2d8724e2e4b5cdf42.gif",
     url: "https://www.hackerrank.com/falcons-vanheimn",
   },
   {
