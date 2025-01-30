@@ -11,7 +11,7 @@ export const Hackathon = () => {
         <div className="hcontainer">
           {hackathonData.map((dat, index) => {
             return (
-              <a href={`${dat.url}`}>
+              <a href={`${dat.url}`} key={index}>
                 <div className="hcard" key={index}>
                   <div
                     className="pseud"
@@ -36,6 +36,7 @@ export const Hackathon = () => {
           })}
         </div>
       </div>
+      <p className="more">More Coming Soon...</p>
     </div>
   );
 };
