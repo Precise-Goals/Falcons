@@ -1,3 +1,5 @@
+import { status } from "express/lib/response";
+
 export const hackathonData = [
   {
     id: "1",
@@ -9,6 +11,7 @@ export const hackathonData = [
     color:
       "https://i.pinimg.com/originals/51/4f/3f/514f3fccb71047d780be491c435a79e1.gif",
     url: "https://www.hackerrank.com/falcons-vanheimn",
+    status:"Archived"
   },
   {
     id: "2",
@@ -20,5 +23,6 @@ export const hackathonData = [
     color:
       "https://steamuserimages-a.akamaihd.net/ugc/802114790894531555/045F7A07B4272EF961134A63045A60BCB9A4CEC3/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false",
     url: "https://www.hackerrank.com/falcons-minihack",
+    status:"Archived"
   },
 ];

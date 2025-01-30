@@ -24,7 +24,9 @@ export const Hackathon = () => {
                     </h1>
                     <div className="tex">
                       <p>{dat.hackDesc}</p>
-                      <span>date posted: {dat.date}</span>
+                      <span>
+                        Status:`({dat.status})` date posted: {dat.date}
+                      </span>
                     </div>
                   </div>
                   <div className="lcr">
