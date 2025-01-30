@@ -10,7 +10,7 @@ export default defineConfig({
     },
     outDir: "dist",
     optimizeDeps: {
-      include: ["tslib",'react-router-dom'],
+      include: ["tslib", "react-router-dom", "express/lib/response"],
     },
   },
 });
