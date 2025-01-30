@@ -1,5 +1,3 @@
-import { status } from "express/lib/response";
-
 export const hackathonData = [
   {
     id: "1",
