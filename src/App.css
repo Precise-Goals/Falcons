@@ -25,6 +25,15 @@ h1.cl {
   margin: 0 3rem;
   transition: all ease 0.25s;
 }
+h1.cl {
+  background: url(https://images.freecreatives.com/wp-content/uploads/2016/04/Download-Abstract-Color-Background.jpg);
+  background-clip: text;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: transparent;
+  filter: drop-shadow(0px 0px 2px #00000075) saturate(0.5) brightness(0.5);
+  background-position-y: 47%;
+}
 
 .Hero {
   display: flex;

@@ -6,6 +6,7 @@ import { Hero } from "./components/hero";
 import { Navbar } from "./components/navbar";
 import { Hackathon } from "./components/hackathons";
 import { BrowserRouter, Route, Routes } from "../node_modules/react-router-dom";
+import DynamicCursor from "./Cursor";
 // build ke liye upar wala uncomment niche wala comment
 // import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -29,13 +30,6 @@ function App() {
     readOnContextChange: true,
   };
 
-  useEffect(() => {
-    if (!localStorage.getItem("firstTimeLoaded")) {
-      localStorage.setItem("firstTimeLoaded", "true");
-      window.location.reload();
-    }
-  }, []);
-
   {
     /*
     useEffect(() =>{
@@ -53,6 +47,7 @@ function App() {
       >
         <main data-scroll-container ref={containerRef}>
           <div className="wrapper">
+            <DynamicCursor />
             <Navbar />
             <BrowserRouter>
               <Routes>

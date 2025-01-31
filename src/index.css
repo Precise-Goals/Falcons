@@ -9,6 +9,20 @@
   /* user-select: none;  */
 }
 
+:root {
+  --var-color: #eaeaea5c;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  cursor: context-menu;
+}
+
 ::selection {
   background-color: transparent;
 }
@@ -120,7 +134,15 @@ body {
   height: 100%;
 }  */
 
-a{
+a {
   text-decoration: none;
   color: black;
+}
+
+.cursor {
+  width: 12px;
+  height: 12px;
+  background: black;
+  border-radius: 4rem;
+  position: absolute;
 }

@@ -25,7 +25,7 @@ export const Hackathon = () => {
                     <div className="tex">
                       <p>{dat.hackDesc}</p>
                       <span>
-                        Status:`({dat.status})` date posted: {dat.date}
+                        Status: ({dat.status}) <br /> date posted: {dat.date}
                       </span>
                     </div>
                   </div>
