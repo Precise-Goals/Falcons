@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Romanesco&display=swap");
 
-#root{
-  background-color: #00000075;
+#root {
+  background-color: #efefef;
 }
 
 .navbar {
@@ -45,7 +45,7 @@ h1.cl {
 }
 .navbar li {
   font-size: 20px;
-  color: #6e6e73;
+  color: #000000;
   font-weight: 400;
   cursor: pointer;
   transition: all ease 0.25s;
@@ -196,7 +196,7 @@ p.scroll {
 }
 
 .cursor {
-  --size: 40px;
+  --size: 20px;
   mix-blend-mode: difference;
   background: white;
   position: fixed;
@@ -209,4 +209,9 @@ p.scroll {
   z-index: 45;
   filter: invert(1);
   background-color: black;
+  transition: transform 0.01s ease; /* Ensure transition time is enough to see the effect */
+}
+
+.cursor.hover {
+  transform: scale(2); /* Increase the scale value */
 }

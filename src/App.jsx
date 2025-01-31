@@ -31,6 +31,7 @@ function App() {
 
   useEffect(() => {
     const cursors = document.querySelectorAll(".cursor");
+    const hoverElements = document.querySelectorAll("a, button");
 
     const circle = { x: 0, y: 0 };
     const mouse = { x: 0, y: 0 };
@@ -40,6 +41,19 @@ function App() {
     window.addEventListener("mousemove", (e) => {
       mouse.x = e.x;
       mouse.y = e.y;
+    });
+
+    hoverElements.forEach((el) => {
+      el.addEventListener("mouseenter", () => {
+        cursors.forEach((cursor) => {
+          cursor.classList.add("hover");
+        });
+      });
+      el.addEventListener("mouseleave", () => {
+        cursors.forEach((cursor) => {
+          cursor.classList.remove("hover");
+        });
+      });
     });
 
     const speed = 0.25;
@@ -58,15 +72,16 @@ function App() {
       prev.x = mouse.x;
       prev.y = mouse.y;
 
-      const v = Math.min(Math.sqrt(dX ** 2 + dY ** 2), 100);
-      const scV = (v / 100) * 0.5;
+      const v = Math.min(Math.sqrt(dX ** 2 + dY ** 2), 150);
+      const scV = (v / 150) * 0.5;
 
       curr += (scV - curr) * speed;
 
       const scale = `scale(${1 + curr},${1 - curr})`;
+      const rotet = `rotate(${(Math.atan2(dY, dX) * 180) / Math.PI}deg)`;
 
       cursors.forEach((cursor) => {
-        cursor.style.transform = `${translate} ${scale}`;
+        cursor.style.transform = `${translate} ${rotet} ${scale}`;
       });
 
       window.requestAnimationFrame(tick);
