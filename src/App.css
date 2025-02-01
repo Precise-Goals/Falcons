@@ -209,9 +209,13 @@ p.scroll {
   z-index: 45;
   filter: invert(1);
   background-color: black;
-  transition: transform 0.01s ease; /* Ensure transition time is enough to see the effect */
+  transition: all 0.1s ease; /* Ensure transition time is enough to see the effect */
 }
 
 .cursor.hover {
-  transform: scale(2); /* Increase the scale value */
+  --sz: 70px;
+  width: var(--sz);
+  height: var(--sz);
+  top: calc(var(--sz) / 2 * -1);
+  left: calc(var(--sz) / 2 * -1);
 }

@@ -138,11 +138,3 @@ a {
   text-decoration: none;
   color: black;
 }
-
-.cursor {
-  width: 12px;
-  height: 12px;
-  background: black;
-  border-radius: 4rem;
-  position: absolute;
-}
