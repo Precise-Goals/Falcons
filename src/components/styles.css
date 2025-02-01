@@ -27,11 +27,11 @@
 
 .heText p {
   font-size: 25px;
-  width: 100%;
+  width: 95%;
   font-family: "Poppins";
-  font-weight: 300;
+  font-weight: 200;
   z-index: 4;
-  line-height: 120%;
+  line-height: 125%;
   color: white;
 }
 
@@ -75,4 +75,17 @@
 
 .abimg img {
   width: 100%;
+}
+
+h1.handle {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  h1.handle {
+    display: flex;
+  }
+  .wrapper {
+    display: none;
+  }
 }
