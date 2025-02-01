@@ -50,6 +50,9 @@ function App() {
 
   return (
     <>
+      <h1 className="handle">
+        Site is Under Construction for Mobile and Tablets
+      </h1>
       <LocomotiveScrollProvider
         containerRef={containerRef}
         options={scrollOptions}
@@ -58,9 +61,6 @@ function App() {
         {/* <div className="cursor"></div> */}
         <Cursor />
         <main data-scroll-container ref={containerRef}>
-          <h1 className="handle">
-            Site is Under Construction for Mobile and Tablets
-          </h1>
           <div className="wrapper">
             <Navbar />
             <BrowserRouter>

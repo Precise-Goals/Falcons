@@ -26,12 +26,12 @@
 }
 
 .heText p {
-  font-size: 25px;
+  font-size: 22px;
   width: 95%;
   font-family: "Poppins";
   font-weight: 200;
   z-index: 4;
-  line-height: 125%;
+  line-height: 140%;
   color: white;
 }
 
@@ -63,7 +63,7 @@
   font-size: 25px;
   border-radius: 15rem;
   margin: 6% 6%;
-  transition: ease 0.25s all;
+  transition: ease 0.5s all;
 }
 
 .heText button:hover {
@@ -75,15 +75,19 @@
 
 .abimg img {
   width: 100%;
+  padding: 10%;
 }
 
 h1.handle {
   display: none;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1024px) {
   h1.handle {
-    display: flex;
+    display: block;
+    margin: 50% 25%;
+    text-align: center;
+    background: white;
   }
   .wrapper {
     display: none;
