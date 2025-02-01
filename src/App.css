@@ -196,7 +196,7 @@ p.scroll {
 }
 
 .cursor {
-  --size: 20px;
+  --size: 12px;
   mix-blend-mode: difference;
   background: white;
   position: fixed;

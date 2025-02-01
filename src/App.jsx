@@ -7,6 +7,7 @@ import { Navbar } from "./components/navbar";
 import { Hackathon } from "./components/hackathons";
 import { Cursor } from "./components/cursor";
 import { BrowserRouter, Route, Routes } from "../node_modules/react-router-dom";
+import { About } from "./components/About";
 
 // build ke liye upar wala uncomment niche wala comment
 // import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -16,6 +17,7 @@ export const Frontpage = () => {
     <div id="container">
       <Hero />
       <Hackathon />
+      <About />
     </div>
   );
 };
@@ -23,12 +25,27 @@ export const Frontpage = () => {
 function App() {
   const containerRef = useRef(null);
 
+  useEffect(() => {
+    const isFirstVisit = sessionStorage.getItem("firstVisit") === null;
+    if (isFirstVisit) {
+      sessionStorage.setItem("firstVisit", "no");
+      window.location.reload();
+    }
+    function HideBrowserScrollbar() {
+      let scrollHide = document.createElement("style");
+      scrollHide.innerHTML = `body::-webkit-scrollbar {display: none;}`;
+      document.head.appendChild(scrollHide);
+    }
+    HideBrowserScrollbar();
+  }, []);
+
   const scrollOptions = {
     smooth: true,
     inertia: 0.6,
     smoothMobile: true,
     getDirection: true,
     readOnContextChange: true,
+    scrollbars: false,
   };
 
   return (

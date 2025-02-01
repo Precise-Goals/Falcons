@@ -3,7 +3,9 @@ import React, { useEffect } from "react";
 export const Cursor = () => {
   useEffect(() => {
     const cursors = document.querySelectorAll(".cursor");
-    const hoverElements = document.querySelectorAll("a, button, li, .cl");
+    const hoverElements = document.querySelectorAll(
+      "a, button,.heText, li, .cl"
+    );
 
     const circle = { x: 0, y: 0 };
     const mouse = { x: 0, y: 0 };
@@ -24,7 +26,7 @@ export const Cursor = () => {
       });
     });
 
-    const speed = 0.25;
+    const speed = 1;
 
     const tick = () => {
       let dx = mouse.x - circle.x;

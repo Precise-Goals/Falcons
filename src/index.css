@@ -6,8 +6,12 @@
   font-family: "Poppins";
   scroll-behavior: smooth;
   -webkit-user-drag: none;
+  text-anchor: end;
   /* user-select: none;  */
 }
+
+
+
 
 :root {
   --var-color: #eaeaea5c;

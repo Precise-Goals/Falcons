@@ -1,0 +1,78 @@
+.heText h1 {
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  height: 100%;
+  line-height: 100%;
+  font-size: 160px;
+  font-family: "Poppins";
+  letter-spacing: -0.04em;
+  background-clip: text;
+  color: transparent;
+  color: white;
+  mix-blend-mode: difference;
+  white-space: nowrap;
+}
+
+.heText h1::after {
+  display: block;
+  content: "";
+  margin: 2% 5% 4%;
+  background-color: white;
+  margin-right: 5%;
+  width: 40%;
+  height: 3px;
+}
+
+.heText p {
+  font-size: 25px;
+  width: 100%;
+  font-family: "Poppins";
+  font-weight: 300;
+  z-index: 4;
+  line-height: 120%;
+  color: white;
+}
+
+.heText {
+  position: relative;
+  display: flex;
+  white-space: normal;
+  width: 60%;
+  flex-direction: column;
+  align-items: end;
+  padding: 3% 5% 2%;
+}
+.abcontainer {
+  align-items: end;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  background-color: black;
+}
+.abcontainer video {
+  position: absolute;
+  height: 100%;
+}
+.heText button {
+  background: transparent;
+  border: 1px white solid;
+  padding: 5% 8%;
+  color: white;
+  font-size: 25px;
+  border-radius: 15rem;
+  margin: 6% 6%;
+  transition: ease 0.25s all;
+}
+
+.heText button:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  transform: scale(1.075);
+}
+
+.abimg img {
+  width: 100%;
+}
