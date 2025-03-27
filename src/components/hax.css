@@ -34,10 +34,12 @@
   background: var(--var-color);
   padding: 3% 0;
   display: flex;
+  row-gap: 1em;
+  column-gap: 1em;
   flex-wrap: wrap;
   flex-direction: row;
   align-items: stretch;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .rcr h1 {
