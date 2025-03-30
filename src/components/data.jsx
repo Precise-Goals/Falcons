@@ -33,6 +33,6 @@ export const hackathonData = [
     color:
       "https://cdna.artstation.com/p/assets/images/images/026/997/914/original/valeriya-kim-octobit4x5.gif?1590320111",
     status: "Live",
-    url: "https://tailwindflex.com/storage/thumbnails/simple-coming-soon-page-2/canvas.min.webp?v=1",
+    url: "https://drive.google.com/file/d/12mr-SYJLQta-aqMH62XCPs1m90zaezgl/view?usp=sharing",
   },
 ];
