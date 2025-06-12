@@ -32,7 +32,19 @@ export const hackathonData = [
     date: "28th March 2025",
     color:
       "https://cdna.artstation.com/p/assets/images/images/026/997/914/original/valeriya-kim-octobit4x5.gif?1590320111",
-    status: "Live",
+    status: "Concluded Soon",
     url: "https://drive.google.com/file/d/12mr-SYJLQta-aqMH62XCPs1m90zaezgl/view?usp=sharing",
+  },
+  {
+    id: "4",
+    hackTitle: "Falcons Algorush",
+    hackDesc:
+      "One of the key Segment for Webspace Finals introducing the Algorithmic Programming Contest.",
+    img: "https://s3.amazonaws.com/hr-assets/0/1733574900-085c527931-F1.png",
+    date: "13th June 2025",
+    color:
+      "https://i.pinimg.com/originals/cf/2c/a4/cf2ca4f35eff08e2d8724e2e4b5cdf42.gif",
+    status: "Live",
+    url: "https://www.hackerrank.com/falcons-algorush",
   },
 ];
