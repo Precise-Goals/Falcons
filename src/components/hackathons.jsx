@@ -10,7 +10,7 @@ export const Hackathon = () => {
         <p>Our Upcoming</p>
         <h1>HACKATHONS</h1>
         <div className="hcontainer">
-          {hackathonData.map((dat, index) => {
+          {[...hackathonData].reverse().map((dat, index) => {
             return (
               <Link to={dat.url} target="_blank" key={index}>
                 <div className="hcard" key={index}>
