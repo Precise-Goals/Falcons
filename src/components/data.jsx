@@ -44,7 +44,7 @@ export const hackathonData = [
     date: "13th June 2025",
     color:
       "https://i.pinimg.com/originals/cf/2c/a4/cf2ca4f35eff08e2d8724e2e4b5cdf42.gif",
-    status: "Live",
+    status: "Archived",
     url: "https://www.hackerrank.com/falcons-algorush",
   },
 ];
