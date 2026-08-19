@@ -1,7 +1,7 @@
 import React from "react";
 import { hackathonData } from "./data";
 import "./hax.css";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export const Hackathon = () => {
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./index.css";
 import "./App.css";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
@@ -6,23 +6,24 @@ import { Hero } from "./components/hero";
 import { Navbar } from "./components/navbar";
 import { Hackathon } from "./components/hackathons";
 import { Cursor } from "./components/cursor";
-import { BrowserRouter, Route, Routes } from "../node_modules/react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { About } from "./components/About";
+import { Teams } from "./containers/Teams";
+import { Policies } from "./containers/Policies";
+import { AuthProvider } from "./context/AuthContext";
+import { GlobalAuthModal } from "./components/teams/AuthModal";
+import { Toaster } from "react-hot-toast";
 
-// build ke liye upar wala uncomment niche wala comment
-// import { BrowserRouter, Route, Routes } from "react-router-dom";
+export const Frontpage = () => (
+  <div id="container">
+    <Hero />
+    <Hackathon />
+    <About />
+  </div>
+);
 
-export const Frontpage = () => {
-  return (
-    <div id="container">
-      <Hero />
-      <Hackathon />
-      <About />
-    </div>
-  );
-};
-
-function App() {
+// Main landing page layout (LocomotiveScroll)
+const MainLayout = () => {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -58,20 +59,61 @@ function App() {
         options={scrollOptions}
         watch={[Frontpage]}
       >
-        {/* <div className="cursor"></div> */}
         <Cursor />
         <main data-scroll-container ref={containerRef}>
           <div className="wrapper">
             <Navbar />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Frontpage />} />
-              </Routes>
-            </BrowserRouter>
+            <Frontpage />
           </div>
         </main>
       </LocomotiveScrollProvider>
     </>
+  );
+};
+
+// Inner app — has access to useNavigate (must be inside BrowserRouter)
+const AppInner = () => (
+  <>
+    <Routes>
+      <Route path="/" element={<MainLayout />} />
+      <Route path="/teams" element={<Teams />} />
+      <Route path="/policies" element={<Policies />} />
+    </Routes>
+
+    {/* Single global auth modal — reads open state from AuthContext
+        and handles post-auth navigation via useNavigate */}
+    <GlobalAuthModal />
+  </>
+);
+
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppInner />
+      </BrowserRouter>
+
+      {/* Global toast — monochromatic dark pill */}
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          style: {
+            background: "#111111",
+            color: "#f0f0f0",
+            borderRadius: "999px",
+            padding: "10px 20px",
+            fontSize: "13px",
+            fontFamily: "Inter, Montserrat, sans-serif",
+            letterSpacing: "0.02em",
+            border: "1px solid #2a2a2a",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+          },
+          duration: 3000,
+          success: { iconTheme: { primary: "#f0f0f0", secondary: "#111" } },
+          error:   { iconTheme: { primary: "#f0f0f0", secondary: "#111" } },
+        }}
+      />
+    </AuthProvider>
   );
 }
 

@@ -1,12 +1,11 @@
 import React from "react";
 import "../App.css";
+import { useAuth } from "../context/AuthContext";
 
 export const Hero = () => {
+  const { currentUser, openAuthModal } = useAuth();
+
   return (
-    // <div className="Hero">
-    //   <h1>We are Falcons</h1>
-    //   <h2>Take A leap of Faith</h2>
-    // </div>
     <div className="try">
       <h3>
         <i>We are</i>
@@ -19,7 +18,11 @@ export const Hero = () => {
         <hr />
       </div>
       <ul className="butons">
-        <button className="b1">Login</button>
+        {!currentUser && (
+          <button className="b1" onClick={openAuthModal}>
+            Login
+          </button>
+        )}
         <button className="b2">
           Know More <span>↗</span>
         </button>
