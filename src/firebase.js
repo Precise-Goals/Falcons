@@ -4,21 +4,22 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBd9TSxxmheU5D3cIw4ovC9aVusgQrgNog",
-  authDomain: "falcons-5cc94.firebaseapp.com",
-  projectId: "falcons-5cc94",
-  storageBucket: "falcons-5cc94.firebasestorage.app",
-  messagingSenderId: "404282222681",
-  appId: "1:404282222681:web:7dece9e6f94fa86498a948",
-  measurementId: "G-4JEHMG4E8T",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
-
-// REAL Database location: Singapore (asia-southeast1)
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-export const analytics = getAnalytics(app);
+export const analytics =
+  typeof window !== "undefined" && firebaseConfig.measurementId
+    ? getAnalytics(app)
+    : null;
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
