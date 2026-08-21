@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.css";
 import "./App.css";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
@@ -13,17 +13,19 @@ import { Policies } from "./containers/Policies";
 import { AuthProvider } from "./context/AuthContext";
 import { GlobalAuthModal } from "./components/teams/AuthModal";
 import { Toaster } from "react-hot-toast";
+import { FeedbackSection } from "./components/FeedbackSection";
 
 export const Frontpage = () => (
   <div id="container">
     <Hero />
     <Hackathon />
     <About />
+    <FeedbackSection />
   </div>
 );
 
-// Main landing page layout (LocomotiveScroll)
-const MainLayout = () => {
+/* ── Desktop layout: LocomotiveScroll ────────────────────── */
+const DesktopLayout = () => {
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -43,35 +45,51 @@ const MainLayout = () => {
   const scrollOptions = {
     smooth: true,
     inertia: 0.6,
-    smoothMobile: true,
+    smoothMobile: false,
     getDirection: true,
     readOnContextChange: true,
     scrollbars: false,
   };
 
   return (
-    <>
-      <h1 className="handle">
-        Site is Under Construction for Mobile and Tablets
-      </h1>
-      <LocomotiveScrollProvider
-        containerRef={containerRef}
-        options={scrollOptions}
-        watch={[Frontpage]}
-      >
-        <Cursor />
-        <main data-scroll-container ref={containerRef}>
-          <div className="wrapper">
-            <Navbar />
-            <Frontpage />
-          </div>
-        </main>
-      </LocomotiveScrollProvider>
-    </>
+    <LocomotiveScrollProvider
+      containerRef={containerRef}
+      options={scrollOptions}
+      watch={[Frontpage]}
+    >
+      <Cursor />
+      <main data-scroll-container ref={containerRef}>
+        <div className="wrapper">
+          <Navbar />
+          <Frontpage />
+        </div>
+      </main>
+    </LocomotiveScrollProvider>
   );
 };
 
-// Inner app — has access to useNavigate (must be inside BrowserRouter)
+/* ── Mobile layout: native scroll ───────────────────────── */
+const MobileLayout = () => (
+  <div className="wrapper">
+    <Navbar />
+    <Frontpage />
+  </div>
+);
+
+/* ── Main Layout: switches based on screen width ─────────── */
+const MainLayout = () => {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
+  return isMobile ? <MobileLayout /> : <DesktopLayout />;
+};
+
+/* ── Inner App ───────────────────────────────────────────── */
 const AppInner = () => (
   <>
     <Routes>
@@ -80,8 +98,7 @@ const AppInner = () => (
       <Route path="/policies" element={<Policies />} />
     </Routes>
 
-    {/* Single global auth modal — reads open state from AuthContext
-        and handles post-auth navigation via useNavigate */}
+    {/* Single global auth modal */}
     <GlobalAuthModal />
   </>
 );
@@ -93,7 +110,7 @@ function App() {
         <AppInner />
       </BrowserRouter>
 
-      {/* Global toast — monochromatic dark pill */}
+      {/* Global toast */}
       <Toaster
         position="bottom-right"
         toastOptions={{

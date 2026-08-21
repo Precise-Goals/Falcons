@@ -183,7 +183,7 @@ export const OnboardingFlow = ({ onComplete }) => {
       <div className="ob-fields">
         {/* Photo */}
         <div className="t-input-group">
-          <label className="t-label">Profile Photo</label>
+          <label className="t-label">Profile Photo *</label>
           <div className="photo-upload-area">
             {f1.photoBase64 ? (
               <img src={f1.photoBase64} alt="Preview" className="photo-preview" />
@@ -201,8 +201,8 @@ export const OnboardingFlow = ({ onComplete }) => {
               >
                 {f1.photoBase64 ? "Change photo" : "Upload photo"}
               </button>
-              <p style={{ fontSize: "0.72rem", color: "var(--t-muted-2)", marginTop: "0.3rem" }}>
-                Compressed automatically · max 5MB
+              <p style={{ fontSize: "0.72rem", color: f1.photoBase64 ? "var(--t-muted-2)" : "#e05252", marginTop: "0.3rem" }}>
+                {f1.photoBase64 ? "Compressed automatically · max 5MB" : "Required · max 5MB"}
               </p>
             </div>
             <input
@@ -262,7 +262,7 @@ export const OnboardingFlow = ({ onComplete }) => {
         <button
           className="t-btn t-btn-primary"
           onClick={next}
-          disabled={!f1.fullName || !f1.contactNumber || !f1.gender}
+          disabled={!f1.photoBase64 || !f1.fullName || !f1.contactNumber || !f1.gender}
         >
           Next →
         </button>

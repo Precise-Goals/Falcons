@@ -1,3 +1,4 @@
+/* ── About / OUR STORY Section ───────────────────────────── */
 .heText h1 {
   z-index: 4;
   display: flex;
@@ -5,11 +6,9 @@
   align-items: end;
   height: 100%;
   line-height: 100%;
-  font-size: 160px;
+  font-size: clamp(52px, 10vw, 160px);
   font-family: "Poppins";
   letter-spacing: -0.04em;
-  background-clip: text;
-  color: transparent;
   color: white;
   mix-blend-mode: difference;
   white-space: nowrap;
@@ -26,7 +25,7 @@
 }
 
 .heText p {
-  font-size: 22px;
+  font-size: clamp(15px, 1.8vw, 22px);
   width: 95%;
   font-family: "Poppins";
   font-weight: 200;
@@ -44,33 +43,41 @@
   align-items: end;
   padding: 3% 5% 2%;
 }
+
 .abcontainer {
-  align-items: end;
+  align-items: center;
   position: relative;
   display: flex;
   flex-direction: row;
   background-color: black;
 }
+
 .abcontainer video {
   position: absolute;
   height: 100%;
 }
+
 .heText button {
   background: transparent;
   border: 1px white solid;
   padding: 5% 8%;
   color: white;
-  font-size: 25px;
+  font-size: clamp(16px, 2vw, 25px);
   border-radius: 15rem;
   margin: 6% 6%;
   transition: ease 0.5s all;
+  cursor: pointer;
 }
 
 .heText button:hover {
   background-color: white;
   color: black;
-  cursor: pointer;
   transform: scale(1.075);
+}
+
+.abimg {
+  flex-shrink: 0;
+  width: 40%;
 }
 
 .abimg img {
@@ -78,18 +85,81 @@
   padding: 10%;
 }
 
+/* Mobile block — removed in new responsive design */
 h1.handle {
   display: none;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — ABOUT SECTION
+   ═══════════════════════════════════════════════════════════ */
+
+/* Tablet */
 @media screen and (max-width: 1024px) {
-  h1.handle {
-    display: block;
-    margin: 50% 25%;
-    text-align: center;
-    background: white;
+  .heText h1 {
+    font-size: clamp(44px, 8vw, 120px);
+    white-space: nowrap;
   }
-  .wrapper {
-    display: none;
+
+  .heText {
+    width: 60%;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  .abcontainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .abimg {
+    width: 80%;
+    max-width: 320px;
+    padding-top: 2rem;
+  }
+
+  .abimg img {
+    padding: 5%;
+  }
+
+  .heText {
+    width: 100%;
+    align-items: flex-start;
+    padding: 5% 6% 8%;
+  }
+
+  .heText h1 {
+    align-items: flex-start;
+    font-size: clamp(42px, 12vw, 80px);
+    white-space: normal;
+  }
+
+  .heText h1::after {
+    align-self: flex-start;
+    margin-left: 0;
+    margin-right: 0;
+    width: 30%;
+  }
+
+  .heText p {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .heText button {
+    padding: 3% 8%;
+    margin: 4% 0;
+  }
+}
+
+/* Small mobile */
+@media screen and (max-width: 480px) {
+  .abimg {
+    width: 70%;
+  }
+
+  .heText h1 {
+    font-size: clamp(38px, 14vw, 60px);
   }
 }

@@ -1,68 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Romanesco&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Romanesco&display=swap");
 
+/* ── Root ────────────────────────────────────────────────── */
 #root {
   background-color: #efefef;
+  overflow-x: hidden;
 }
 
-.navbar {
-  display: flex;
-  align-items: center;
-  padding: 1.125% 10%;
-  justify-content: center;
-  flex-direction: row;
+/* ── Wrapper & Container ─────────────────────────────────── */
+.wrapper {
   width: 100%;
-  border: 1px solid black;
-  border-radius: 0rem 0rem 50rem 50rem;
-  border-top: none;
-}
-
-ul.rl,
-ul.ll {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
-}
-
-h1.cl {
-  font-size: 40px;
-  cursor: pointer;
-  margin: 0 3rem;
-  transition: all ease 0.25s;
-}
-h1.cl {
-  background: url(https://images.freecreatives.com/wp-content/uploads/2016/04/Download-Abstract-Color-Background.jpg);
-  background-clip: text;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: transparent;
-  filter: drop-shadow(0px 0px 2px #00000075) saturate(0.5) brightness(0.5);
-  background-position-y: 47%;
-}
-
-.Hero {
-  display: flex;
-  justify-content: center;
-}
-.navbar li {
-  font-size: 20px;
-  color: #000000;
-  font-weight: 400;
-  cursor: pointer;
-  transition: all ease 0.25s;
-  font-family: "montserrat";
-}
-
-.navbar li:hover {
-  transform: scale(1.05);
-  font-weight: 600;
-}
-
-.bg {
-  left: 0;
-  top: 0;
-  position: absolute;
-  z-index: 0;
-  width: 100%;
+  position: relative;
 }
 
 #container {
@@ -70,30 +17,209 @@ h1.cl {
   z-index: 2;
   overflow-x: hidden;
 }
-.wrapper {
+
+/* ═══════════════════════════════════════════════════════════
+   NAVBAR
+   ═══════════════════════════════════════════════════════════ */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 1rem 6%;
+  justify-content: space-between;
+  flex-direction: row;
   width: 100%;
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(239, 239, 239, 0.82);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transition: background 0.3s ease;
 }
-.Hero {
+
+.navbar-logo-wrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar .rl,
+.navbar .ll {
+  display: flex;
+  list-style: none;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+h1.cl {
+  font-size: clamp(24px, 3.5vw, 40px);
+  cursor: pointer;
+  transition: all ease 0.25s;
+  background: url(https://images.freecreatives.com/wp-content/uploads/2016/04/Download-Abstract-Color-Background.jpg);
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: transparent;
+  filter: drop-shadow(0px 0px 2px #00000075) saturate(0.5) brightness(0.5);
+  background-position-y: 47%;
+  white-space: nowrap;
+}
+
+.navbar li {
+  font-size: clamp(13px, 1.4vw, 18px);
+  color: #000000;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all ease 0.25s;
+  font-family: "Montserrat", sans-serif;
+  white-space: nowrap;
+}
+
+.navbar li:hover {
+  transform: scale(1.05);
+  font-weight: 600;
+}
+
+/* ── Hamburger Button ────────────────────────────────────── */
+.navbar-hamburger {
+  display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  z-index: 110;
+}
+
+.navbar-hamburger:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.navbar-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #000;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.navbar-hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar-hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navbar-hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Mobile Nav Drawer ───────────────────────────────────── */
+.navbar-mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 98;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-mobile-overlay.open {
+  opacity: 1;
+}
+
+.navbar-mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: min(300px, 80vw);
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
+  z-index: 99;
+  transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 1.5rem 2rem;
+  gap: 0.25rem;
+}
+
+.navbar-mobile-drawer.open {
+  right: 0;
+}
+
+.navbar-mobile-drawer a,
+.navbar-mobile-drawer li {
+  color: #000000 !important;
+  font-size: 1.05rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  list-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navbar-mobile-drawer a:hover,
+.navbar-mobile-drawer li:hover {
+  background: rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  transform: translateX(4px);
+}
+
+.navbar-mobile-brand {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-family: "Montserrat", sans-serif;
+  color: #000000;
+  letter-spacing: -0.02em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════════════════════════ */
+.Hero {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: clamp(4rem, 10vw, 10%) 5%;
 }
 
 .Hero h1 {
-  font-size: 115px;
+  font-size: clamp(40px, 8vw, 115px);
   line-height: 103%;
 }
 
 .Hero h2 {
-  font-size: 35px;
+  font-size: clamp(20px, 3.5vw, 35px);
 }
 
-.Hero {
-  text-align: center;
-  padding: 10% 0;
-}
+/* ── Big FALCONS text ────────────────────────────────────── */
 .try h1 {
   color: transparent;
-  font-size: 300px;
+  font-size: clamp(72px, 22vw, 300px);
   line-height: 75%;
   letter-spacing: -0.05em;
   background: url(./assets/falcons.gif);
@@ -105,7 +231,7 @@ h1.cl {
 }
 
 .try h3 {
-  font-size: 80px;
+  font-size: clamp(28px, 5vw, 80px);
   color: #6e6e73;
 }
 
@@ -114,13 +240,14 @@ h1.cl {
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  margin-left: 8%;
+  margin-left: clamp(4%, 8%, 8%);
   margin-top: 2%;
 }
 
 .try h1 span {
   letter-spacing: -0.125em;
 }
+
 .herocontent {
   display: flex;
   align-items: center;
@@ -128,20 +255,23 @@ h1.cl {
   flex-direction: row;
   position: relative;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .herocontent h5 {
-  font-size: 35px;
+  font-size: clamp(14px, 2.5vw, 35px);
   font-weight: 300;
   color: black;
-  letter-spacing: 0.5em;
+  letter-spacing: clamp(0.1em, 0.5em, 0.5em);
   margin-left: 1.5%;
   margin-top: 1.5%;
 }
+
 .try i {
   font-weight: 200;
   font-family: "Montserrat";
 }
+
 .herocontent hr {
   width: 26%;
   height: 3px;
@@ -152,29 +282,36 @@ h1.cl {
   right: 20%;
   position: absolute;
 }
+
+/* ── Buttons ─────────────────────────────────────────────── */
 .butons {
   display: flex;
   gap: 1em;
   margin-top: 1.5%;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .butons button {
-  font-size: 25px;
-  padding: 1.5% 3%;
+  font-size: clamp(15px, 2vw, 25px);
+  padding: clamp(8px, 1.5vw, 1.5%) clamp(18px, 3vw, 3%);
   border-radius: 60rem;
   cursor: pointer;
   font-weight: 500;
   transition: all ease-in-out 0.25s;
+  white-space: nowrap;
 }
+
 .b2 {
   color: black;
   background-color: white;
   border: 2px solid black;
 }
+
 .b1 {
   color: white;
   background-color: black;
+  border: 2px solid black;
 }
 
 .butons button:hover {
@@ -183,18 +320,28 @@ h1.cl {
 }
 
 .butons span {
-  font-size: 30px;
+  font-size: clamp(18px, 2.5vw, 30px);
 }
 
 p.scroll {
   position: absolute;
   bottom: 0;
   right: 10%;
-  font-size: 25px;
+  font-size: clamp(14px, 1.8vw, 25px);
   font-weight: 200;
   font-family: "Montserrat";
 }
 
+/* ── Background ──────────────────────────────────────────── */
+.bg {
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+}
+
+/* ── Cursor ──────────────────────────────────────────────── */
 .cursor {
   --size: 12px;
   mix-blend-mode: difference;
@@ -209,7 +356,7 @@ p.scroll {
   z-index: 45;
   filter: invert(1);
   background-color: black;
-  transition: all 0.1s ease; /* Ensure transition time is enough to see the effect */
+  transition: all 0.1s ease;
 }
 
 .cursor.hover {
@@ -218,4 +365,77 @@ p.scroll {
   height: var(--sz);
   top: calc(var(--sz) / 2 * -1);
   left: calc(var(--sz) / 2 * -1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Tablet ──────────────────────────────────────────────── */
+@media screen and (max-width: 1024px) {
+  .herocontent hr {
+    display: none;
+  }
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media screen and (max-width: 768px) {
+  /* Navbar */
+  .navbar {
+    padding: 0.85rem 5%;
+    justify-content: space-between;
+  }
+
+  .navbar .rl,
+  .navbar .ll {
+    display: none;
+  }
+
+  .navbar-logo-wrap {
+    flex: none;
+  }
+
+  .navbar-hamburger {
+    display: flex;
+  }
+
+  .navbar-mobile-overlay {
+    display: block;
+  }
+
+  /* Hero */
+  .try {
+    margin-left: 5%;
+    align-items: flex-start;
+  }
+
+  p.scroll {
+    display: none;
+  }
+
+  .butons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .butons button {
+    width: auto;
+    padding: 10px 24px;
+  }
+
+  .herocontent h5 {
+    letter-spacing: 0.08em;
+  }
+}
+
+/* ── Small Mobile ────────────────────────────────────────── */
+@media screen and (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem 4%;
+  }
+
+  .try {
+    margin-left: 4%;
+  }
 }

@@ -2,33 +2,52 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  text-anchor: none;
-  font-family: "Poppins";
+  font-family: "Poppins", "Inter", sans-serif;
   scroll-behavior: smooth;
   -webkit-user-drag: none;
-  text-anchor: end;
-  /* user-select: none;  */
 }
 
-
-
-
+/* ── Design Tokens ───────────────────────────────────────── */
 :root {
+  /* Legacy */
   --var-color: #eaeaea5c;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(15, 15, 20, 0.72);
+  --glass-bg-light: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(18px);
+  --glass-blur-sm: blur(10px);
+
+  /* Discord-inspired accent palette */
+  --accent-blurple: #5865f2;
+  --accent-blurple-hover: #4752c4;
+  --accent-indigo: #7289da;
+  --accent-glow: rgba(88, 101, 242, 0.25);
+
+  /* Neutrals */
+  --dark-bg: #080808;
+  --dark-surface: #111111;
+  --dark-surface-2: #1a1a1a;
+  --dark-border: rgba(255, 255, 255, 0.08);
+  --dark-text: #f0f0f0;
+  --dark-muted: #888888;
+
+  /* Breakpoints (reference only, used via media queries) */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
+/* ── Base Resets ─────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6, p {
   cursor: context-menu;
 }
 
 ::selection {
-  background-color: transparent;
+  background-color: var(--accent-blurple);
+  color: white;
 }
 
 ::-webkit-scrollbar,
@@ -38,11 +57,17 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: black;
+  background-color: #333;
   width: 1px;
+  border-radius: 4px;
 }
 
-/*! locomotive-scroll v4.1.3 | MIT License | https://github.com/locomotivemtl/locomotive-scroll */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Locomotive Scroll ───────────────────────────────────── */
 html.has-scroll-smooth {
   overflow: hidden;
 }
@@ -85,14 +110,11 @@ html.has-scroll-dragging {
   transition: transform 0.3s, opacity 0.3s;
   opacity: 0;
 }
-.c-scrollbar:hover {
-  transform: scaleX(1.45);
-}
+.c-scrollbar:hover { transform: scaleX(1.45); }
 .c-scrollbar:hover,
 .has-scroll-scrolling .c-scrollbar,
-.has-scroll-dragging .c-scrollbar {
-  opacity: 1;
-}
+.has-scroll-dragging .c-scrollbar { opacity: 1; }
+
 [data-scroll-direction="horizontal"] .c-scrollbar {
   width: 100%;
   height: 10px;
@@ -108,8 +130,8 @@ html.has-scroll-dragging {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: black;
-  opacity: 0.5;
+  background-color: #444;
+  opacity: 0.6;
   width: 7px;
   border-radius: 10px;
   margin: 2px;
@@ -123,22 +145,4 @@ html.has-scroll-dragging {
 [data-scroll-direction="horizontal"] .c-scrollbar_thumb {
   right: auto;
   bottom: 0;
-}
-/* html,
-body {
-  height: 100%;
-  overflow: hidden; 
-}
-
-.wrapper {
-  height: 100%;
-}
-
-#container {
-  height: 100%;
-}  */
-
-a {
-  text-decoration: none;
-  color: black;
 }

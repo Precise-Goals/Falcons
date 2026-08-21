@@ -1,38 +1,27 @@
+/* ══ Hackathon Section ════════════════════════════════════ */
 .hhead {
-  padding: 5% 10% 0 10%;
+  padding: clamp(2rem, 5%, 5%) clamp(1.5rem, 10%, 10%) 0;
 }
 
 .hhead p {
   font-family: "Montserrat";
   font-style: italic;
-  font-size: 40px;
+  font-size: clamp(20px, 3.5vw, 40px);
   font-weight: 200;
 }
 
 .hhead h1 {
-  font-size: 65px;
+  font-size: clamp(36px, 5.5vw, 65px);
   font-style: italic;
   line-height: 115%;
   font-weight: 800;
   font-family: "Poppins";
 }
-.hcard {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  position: relative;
-  overflow: hidden;
-  background: white;
-  transform: skew(-5deg, 0deg);
-  padding: 2% 4%;
-  filter: drop-shadow(0px 0px 10px #00000035);
-  border-radius: 2rem;
-}
 
+/* ── Card Container ──────────────────────────────────────── */
 .hcontainer {
   background: var(--var-color);
-  padding: 0% 0;
+  padding: 0;
   display: flex;
   row-gap: 2em;
   column-gap: 1em;
@@ -40,86 +29,7 @@
   flex-direction: row;
   align-items: stretch;
   justify-content: flex-start;
-  /* padding-left: 3%; */
   margin: 2% 0;
-  /* border-left: 3px solid black; */
-}
-
-
-.rcr h1 {
-  font-size: 30px;
-}
-
-.rcr p {
-  font-family: "Poppins";
-  width: 100%;
-  font-style: normal;
-  font-size: 15px;
-  font-weight: 400;
-  margin: 8% 0 4% 0rem;
-}
-.lcr img {
-  border-radius: 2rem;
-  width: 100%;
-}
-.rcr span {
-  font-weight: 600;
-  color: darkgray;
-  font-size: 18px;
-}
-
-.pseud {
-  width: 100%;
-  position: absolute;
-  height: 85%;
-  top: -40%;
-  left: 0;
-  z-index: 1;
-}
-
-.lcr,
-.rcr {
-  z-index: 3;
-  position: relative;
-}
-.lcr {
-  width: 100%;
-  overflow: hidden;
-  filter: drop-shadow(0px 0px 10px #00000045);
-}
-
-.rcr {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  width: 100%;
-}
-.rcr h1 {
-  width: 100%;
-  color: white;
-  padding: 5% 2% 2%;
-  filter: drop-shadow(0px 0px 10px #000000);
-}
-.lcr {
-      position: absolute;
-    width: 35%;
-    right: 10%;
-    top: 9%;
-}
-.rcr h1 span {
-  font-size: 40px;
-  font-weight: 800;
-  color: white;
-  line-height: 80%;
-}
-
-.hcard:hover {
-  scale: 1.01;
-  box-shadow: 0.25em 0.5em 0 0.25em black;
-}
-.hcard:active {
-  box-shadow: 0.25em 0.5em 0 0.5em transparent;
-  scale: 1;
 }
 
 .hcontainer a {
@@ -128,25 +38,191 @@
   align-items: stretch;
   flex-direction: row;
 }
+
+/* ── Card ────────────────────────────────────────────────── */
+.hcard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: white;
+  transform: skew(-4deg, 0deg);
+  padding: 0;
+  filter: drop-shadow(0px 4px 14px rgba(0, 0, 0, 0.12));
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: all ease 0.3s;
+  min-height: 270px;
+}
+
+.hcard:hover {
+  scale: 1.015;
+  box-shadow: 0.25em 0.5em 0 0.25em black;
+}
+
+.hcard:active {
+  box-shadow: 0.25em 0.5em 0 0.5em transparent;
+  scale: 1;
+}
+
+/* ── Card Inner Elements ─────────────────────────────────── */
+.pseud {
+  width: 100%;
+  height: 110px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.pseud::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+.rcr {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  z-index: 2;
+  position: relative;
+  height: 100%;
+}
+
+.rcr h1 {
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 22px;
+  width: 100%;
+  color: white;
+  padding: 0 1.25rem;
+  line-height: 1.1;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.7));
+}
+
+.rcr h1 span {
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+}
+
+.tex {
+  padding: 1.25rem 1.25rem 1rem;
+  background: white;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  z-index: 2;
+}
+
+.rcr p {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 400;
+  color: #333;
+  margin: 0;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.rcr span {
+  font-weight: 600;
+  color: #888;
+  font-size: 12px;
+  line-height: 1.5;
+  display: block;
+}
+
+.lcr {
+  position: absolute;
+  top: 80px;
+  right: 1.25rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: white;
+  padding: 3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 4;
+  overflow: hidden;
+}
+
+.lcr img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Section wrapper ─────────────────────────────────────── */
 div#hc {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 2em 0 2em;
 }
 
 p.more {
-  font-size: 22px;
+  font-size: clamp(15px, 1.8vw, 22px);
   font-family: "Montserrat";
   font-weight: 200;
   font-style: italic;
   padding: 2% 0;
 }
 
-#hc {
-  padding: 2em 0 2em;
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE HACKATHON CARDS
+   ═══════════════════════════════════════════════════════════ */
+
+/* Tablet */
+@media screen and (max-width: 1024px) {
+  .hcontainer a {
+    width: 47%;
+  }
 }
-.hcard {
-  cursor: pointer;
-  transition: all ease 0.4s;
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  .hcontainer {
+    flex-direction: column;
+  }
+
+  .hcontainer a {
+    width: 100%;
+  }
+
+  .hcard {
+    transform: skew(0deg);
+    border-radius: 1.25rem;
+    min-height: auto;
+  }
+
+  .rcr h1 {
+    font-size: clamp(18px, 4.5vw, 22px);
+  }
+
+  .rcr h1 span {
+    font-size: clamp(22px, 5.5vw, 28px);
+  }
+}
+
+/* Small mobile */
+@media screen and (max-width: 480px) {
+  .hhead {
+    padding: 1.5rem 5% 0;
+  }
 }
