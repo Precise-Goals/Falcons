@@ -232,7 +232,7 @@
 }
 
 .t-char-count {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--t-muted-2);
   text-align: right;
   margin-top: 0.25rem;
@@ -240,6 +240,14 @@
 
 .t-char-count.warn {
   color: #e0a352;
+}
+
+.t-char-count.error {
+  color: #e05252;
+}
+
+.t-char-count.valid {
+  color: #4ade80;
 }
 
 /* ── Pill toggle / multi-select ─────────────────────── */

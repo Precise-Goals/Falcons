@@ -61,7 +61,8 @@ export const AuthProvider = ({ children }) => {
       toast.success("Signed in");
       return profile; // caller uses this to decide where to navigate
     } catch (err) {
-      const code = err.code;
+      console.error("Login error:", err);
+      const code = err?.code;
       if (
         code === "auth/user-not-found" ||
         code === "auth/wrong-password" ||
@@ -70,8 +71,10 @@ export const AuthProvider = ({ children }) => {
         toast.error("Check your email or password");
       } else if (code === "auth/too-many-requests") {
         toast.error("Too many attempts. Try again later");
+      } else if (code === "auth/network-request-failed") {
+        toast.error("Network error. Please check your internet connection.");
       } else {
-        toast.error("Something went wrong");
+        toast.error(err?.message || "Sign in failed");
       }
       throw err;
     }
@@ -89,18 +92,25 @@ export const AuthProvider = ({ children }) => {
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
-      await setDoc(doc(db, "users", cred.user.uid), stub);
+      try {
+        await setDoc(doc(db, "users", cred.user.uid), stub);
+      } catch (dbErr) {
+        console.error("Error creating user profile in Firestore:", dbErr);
+      }
       setUserProfile(stub);
       toast.success("Account created");
       return stub; // always onboardingComplete: false → caller sends to /teams
     } catch (err) {
-      const code = err.code;
+      console.error("Signup error:", err);
+      const code = err?.code;
       if (code === "auth/email-already-in-use") {
         toast.error("An account with this email already exists");
       } else if (code === "auth/weak-password") {
         toast.error("Password must be at least 6 characters");
+      } else if (code === "auth/network-request-failed") {
+        toast.error("Network error. Please check your internet connection.");
       } else {
-        toast.error("Something went wrong");
+        toast.error(err?.message || "Account creation failed");
       }
       throw err;
     }
@@ -111,29 +121,63 @@ export const AuthProvider = ({ children }) => {
       const cred = await signInWithPopup(auth, googleProvider);
       const user = cred.user;
       let profile = null;
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (snap.exists()) {
-        profile = snap.data();
-        setUserProfile(profile);
-      } else {
-        const stub = {
+
+      try {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (snap.exists()) {
+          profile = snap.data();
+          setUserProfile(profile);
+        } else {
+          const stub = {
+            uid: user.uid,
+            email: user.email || "",
+            role: "member",
+            verified: false,
+            onboardingComplete: false,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          };
+          await setDoc(doc(db, "users", user.uid), stub);
+          profile = stub;
+          setUserProfile(stub);
+        }
+      } catch (dbErr) {
+        console.error("Firestore user profile fetch/create error during Google Auth:", dbErr);
+        // Provide fallback profile so user isn't blocked if Firestore had a glitch
+        const fallbackStub = {
           uid: user.uid,
-          email: user.email,
+          email: user.email || "",
           role: "member",
           verified: false,
           onboardingComplete: false,
-          createdAt: serverTimestamp(),
-          updatedAt: serverTimestamp(),
         };
-        await setDoc(doc(db, "users", user.uid), stub);
-        profile = stub;
-        setUserProfile(stub);
+        profile = fallbackStub;
+        setUserProfile(fallbackStub);
       }
-      toast.success("Signed in");
+
+      toast.success("Signed in with Google");
       return profile;
     } catch (err) {
-      if (err.code !== "auth/popup-closed-by-user") {
-        toast.error("Something went wrong");
+      console.error("Google Auth error:", err);
+      const code = err?.code;
+      if (
+        code === "auth/popup-closed-by-user" ||
+        code === "auth/cancelled-popup-request"
+      ) {
+        // User closed the popup, silently return null
+        return null;
+      } else if (code === "auth/popup-blocked") {
+        toast.error("Popup blocked by your browser. Please allow popups for this site.");
+      } else if (code === "auth/unauthorized-domain") {
+        toast.error("Domain is not authorized in Firebase Console (Authentication > Settings > Authorized domains).");
+      } else if (code === "auth/account-exists-with-different-credential") {
+        toast.error("An account already exists with this email using email/password.");
+      } else if (code === "auth/operation-not-allowed") {
+        toast.error("Google sign-in is not enabled in Firebase Console.");
+      } else if (code === "auth/network-request-failed") {
+        toast.error("Network error. Please check your internet connection.");
+      } else {
+        toast.error(err?.message || "Google sign-in failed. Please try again.");
       }
       throw err;
     }

@@ -59,9 +59,11 @@ export const GlobalAuthModal = () => {
     setGLoading(true);
     try {
       const profile = await signInWithGoogle();
-      afterAuth(profile, false);
+      if (profile) {
+        afterAuth(profile, false);
+      }
     } catch {
-      // handled
+      // Handled in AuthContext
     } finally {
       setGLoading(false);
     }

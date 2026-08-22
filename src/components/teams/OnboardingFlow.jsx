@@ -69,7 +69,10 @@ export const OnboardingFlow = ({ onComplete }) => {
 
   // ── Frame data ────────────────────────────────────────
   const [f1, setF1] = useState({
-    fullName: "", contactNumber: "", photoBase64: "", gender: "",
+    fullName: currentUser?.displayName || "",
+    contactNumber: "",
+    photoBase64: "",
+    gender: "",
   });
   const [f2, setF2] = useState({
     githubUsername: "", linkedinUrl: "", instagramHandle: "",
@@ -83,6 +86,13 @@ export const OnboardingFlow = ({ onComplete }) => {
     yearsOfExperience: "", lookingForTeam: null,
   });
   const [agreed, setAgreed] = useState(false);
+
+  // Sync Google display name if available
+  React.useEffect(() => {
+    if (currentUser?.displayName && !f1.fullName) {
+      setF1((p) => ({ ...p, fullName: currentUser.displayName }));
+    }
+  }, [currentUser]);
 
   // ── Greeting phase ────────────────────────────────────
   React.useEffect(() => {
@@ -121,6 +131,11 @@ export const OnboardingFlow = ({ onComplete }) => {
   // ── Save profile ──────────────────────────────────────
   const handleSubmit = async () => {
     if (!agreed) { toast.error("Please agree to the terms"); return; }
+    const trimmedBio = f2.bio.trim();
+    if (!trimmedBio || trimmedBio.length < 175 || trimmedBio.length > 250) {
+      toast.error("Bio must be between 175 and 250 characters");
+      return;
+    }
     setSaving(true);
     try {
       const profile = {
@@ -139,7 +154,7 @@ export const OnboardingFlow = ({ onComplete }) => {
         githubUsername: f2.githubUsername.trim(),
         linkedinUrl: f2.linkedinUrl.trim(),
         instagramHandle: f2.instagramHandle.trim(),
-        bio: f2.bio.trim(),
+        bio: trimmedBio,
         discordId: f2.discordId.trim(),
         // Frame 3
         passingOutYear: Number(f3.passingOutYear),
@@ -312,17 +327,42 @@ export const OnboardingFlow = ({ onComplete }) => {
           />
         </div>
         <div className="t-input-group">
-          <label className="t-label">Bio / Description * (max 300 chars)</label>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.25rem" }}>
+            <label className="t-label" style={{ marginBottom: 0 }}>Bio / Description * (175–250 chars)</label>
+            <span
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 500,
+                color:
+                  f2.bio.trim().length === 0
+                    ? "var(--t-muted-2)"
+                    : f2.bio.trim().length < 175
+                    ? "#e0a352"
+                    : f2.bio.trim().length <= 250
+                    ? "#4ade80"
+                    : "#e05252",
+              }}
+            >
+              {f2.bio.trim().length === 0
+                ? "Compulsory (min 175 chars)"
+                : f2.bio.trim().length < 175
+                ? `${175 - f2.bio.trim().length} more chars needed (${f2.bio.length}/250)`
+                : `${f2.bio.length}/250 ✓`}
+            </span>
+          </div>
           <textarea
             className="t-input t-textarea"
-            placeholder="Tell the community a bit about yourself..."
-            maxLength={300}
+            placeholder="Tell the community about yourself, your skills, hackathon experience, and interests (minimum 175 characters)..."
+            maxLength={250}
             value={f2.bio}
             onChange={(e) => setF2((p) => ({ ...p, bio: e.target.value }))}
+            required
           />
-          <span className={`t-char-count${f2.bio.length > 260 ? " warn" : ""}`}>
-            {f2.bio.length}/300
-          </span>
+          {f2.bio.length > 0 && f2.bio.trim().length < 175 && (
+            <p style={{ fontSize: "0.74rem", color: "#e0a352", marginTop: "0.25rem" }}>
+              ⚠️ Bio requires at least 175 characters ({f2.bio.trim().length} entered). Please add {175 - f2.bio.trim().length} more characters.
+            </p>
+          )}
         </div>
       </div>
       <div className="ob-nav">
@@ -330,7 +370,14 @@ export const OnboardingFlow = ({ onComplete }) => {
         <button
           className="t-btn t-btn-primary"
           onClick={next}
-          disabled={!f2.githubUsername || !f2.linkedinUrl || !f2.discordId || !f2.bio}
+          disabled={
+            !f2.githubUsername.trim() ||
+            !f2.linkedinUrl.trim() ||
+            !f2.discordId.trim() ||
+            !f2.bio.trim() ||
+            f2.bio.trim().length < 175 ||
+            f2.bio.trim().length > 250
+          }
         >
           Next →
         </button>

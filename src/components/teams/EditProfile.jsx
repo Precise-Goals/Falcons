@@ -68,6 +68,33 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
   };
 
   const handleSave = async () => {
+    const trimmedBio = form.bio?.trim() || "";
+    if (!trimmedBio || trimmedBio.length < 175 || trimmedBio.length > 250) {
+      toast.error("Bio must be between 175 and 250 characters");
+      return;
+    }
+    if (
+      !form.fullName?.trim() ||
+      !form.contactNumber?.trim() ||
+      !form.gender ||
+      !form.githubUsername?.trim() ||
+      !form.linkedinUrl?.trim() ||
+      !form.discordId?.trim() ||
+      !form.passingOutYear ||
+      !form.branch ||
+      !form.collegeName?.trim() ||
+      !form.city?.trim() ||
+      !form.hackathonTier ||
+      !form.hackathonFrequency ||
+      form.yearsOfExperience === "" ||
+      form.yearsOfExperience === undefined ||
+      form.lookingForTeam === null ||
+      !(form.skills?.length > 0)
+    ) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
     setSaving(true);
     try {
       const uid = currentUser.uid;
@@ -78,8 +105,8 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
         gender: form.gender,
         githubUsername: form.githubUsername?.trim(),
         linkedinUrl: form.linkedinUrl?.trim(),
-        instagramHandle: form.instagramHandle?.trim(),
-        bio: form.bio?.trim(),
+        instagramHandle: form.instagramHandle?.trim() || "",
+        bio: trimmedBio,
         discordId: form.discordId?.trim(),
         passingOutYear: Number(form.passingOutYear),
         branch: form.branch,
@@ -178,12 +205,42 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                 <input className="t-input" value={form.instagramHandle || ""} onChange={(e) => set("instagramHandle", e.target.value)} />
               </div>
               <div className="t-input-group">
-                <label className="t-label">Bio (max 300)</label>
-                <textarea className="t-input t-textarea" maxLength={300}
-                  value={form.bio || ""} onChange={(e) => set("bio", e.target.value)} />
-                <span className={`t-char-count${(form.bio?.length || 0) > 260 ? " warn" : ""}`}>
-                  {form.bio?.length || 0}/300
-                </span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.25rem" }}>
+                  <label className="t-label" style={{ marginBottom: 0 }}>Bio (175–250 chars) *</label>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 500,
+                      color:
+                        (form.bio?.trim().length || 0) === 0
+                          ? "var(--t-muted-2)"
+                          : (form.bio?.trim().length || 0) < 175
+                          ? "#e0a352"
+                          : (form.bio?.trim().length || 0) <= 250
+                          ? "#4ade80"
+                          : "#e05252",
+                    }}
+                  >
+                    {(form.bio?.trim().length || 0) === 0
+                      ? "Compulsory (min 175 chars)"
+                      : (form.bio?.trim().length || 0) < 175
+                      ? `${175 - (form.bio?.trim().length || 0)} more chars needed (${form.bio?.length || 0}/250)`
+                      : `${form.bio?.length || 0}/250 ✓`}
+                  </span>
+                </div>
+                <textarea
+                  className="t-input t-textarea"
+                  maxLength={250}
+                  placeholder="Tell the community about yourself, your skills, hackathon experience, and interests (minimum 175 characters)..."
+                  value={form.bio || ""}
+                  onChange={(e) => set("bio", e.target.value)}
+                  required
+                />
+                {(form.bio?.length || 0) > 0 && (form.bio?.trim().length || 0) < 175 && (
+                  <p style={{ fontSize: "0.74rem", color: "#e0a352", marginTop: "0.25rem" }}>
+                    ⚠️ Bio requires at least 175 characters ({(form.bio?.trim().length || 0)} entered). Please add {175 - (form.bio?.trim().length || 0)} more characters.
+                  </p>
+                )}
               </div>
             </div>
           </section>
@@ -277,7 +334,34 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
 
         <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem", marginTop: "2rem", paddingTop: "1.25rem", borderTop: "1px solid var(--t-border)" }}>
           <button className="t-btn t-btn-ghost" onClick={onClose}>Cancel</button>
-          <button className="t-btn t-btn-primary" onClick={handleSave} disabled={saving}>
+          <button
+            className="t-btn t-btn-primary"
+            onClick={handleSave}
+            disabled={
+              saving ||
+              !form.bio ||
+              form.bio.trim().length < 175 ||
+              form.bio.trim().length > 250 ||
+              !form.fullName?.trim() ||
+              !form.contactNumber?.trim() ||
+              !form.gender ||
+              !form.githubUsername?.trim() ||
+              !form.linkedinUrl?.trim() ||
+              !form.discordId?.trim() ||
+              !form.passingOutYear ||
+              !form.branch ||
+              !form.collegeName?.trim() ||
+              !form.city?.trim() ||
+              !form.hackathonTier ||
+              !form.hackathonFrequency ||
+              form.yearsOfExperience === "" ||
+              form.yearsOfExperience === undefined ||
+              form.yearsOfExperience === null ||
+              form.lookingForTeam === null ||
+              form.lookingForTeam === undefined ||
+              !(form.skills?.length > 0)
+            }
+          >
             {saving ? "Saving…" : "Save Changes"}
           </button>
         </div>
