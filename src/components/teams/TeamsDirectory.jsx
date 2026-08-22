@@ -242,8 +242,9 @@ const SiteMemberCard = ({ profile, onClick, isOwn }) => {
    TeamsDirectory
    ────────────────────────────────────────────────────── */
 export const TeamsDirectory = () => {
-  const { currentUser, userProfile, logout, refreshProfile } = useAuth();
+  const { currentUser, userProfile, openAuthModal, logout, refreshProfile } = useAuth();
   const isAdmin = userProfile?.role === "admin";
+  const hasDetails = Boolean(currentUser && userProfile?.onboardingComplete);
 
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -254,6 +255,18 @@ export const TeamsDirectory = () => {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({ ...EMPTY_FILTERS });
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const handleDetailsAction = () => {
+    if (!currentUser) {
+      openAuthModal();
+    } else if (!userProfile?.onboardingComplete) {
+      refreshProfile();
+    } else {
+      const myProfile = members.find((m) => m.uid === currentUser.uid) || userProfile;
+      setSelected(myProfile);
+      setEditing(true);
+    }
+  };
 
   const fetchMembers = async () => {
     setLoading(true);
@@ -355,6 +368,30 @@ export const TeamsDirectory = () => {
             Clear filters
           </button>
         )}
+
+        {/* Add / Edit your details button */}
+        <button
+          className={`td-details-btn${hasDetails ? " td-details-btn--edit" : " td-details-btn--add"}`}
+          onClick={handleDetailsAction}
+        >
+          {hasDetails ? (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+              <span>Edit your details</span>
+            </>
+          ) : (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              <span>Add your details</span>
+            </>
+          )}
+        </button>
 
         {/* User actions */}
         <div style={{ marginLeft: "auto", display: "flex", gap: "0.5rem", alignItems: "center" }}>

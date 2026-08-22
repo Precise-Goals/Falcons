@@ -1431,6 +1431,51 @@
   color: #333;
 }
 
+/* Details Action Button (Add / Edit your details) */
+.td-details-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.td-details-btn--add {
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.td-details-btn--add:hover {
+  background: #2c2c2c;
+  border-color: #2c2c2c;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
+.td-details-btn--edit {
+  background: #fff;
+  color: #111;
+  border: 1px solid #111;
+}
+
+.td-details-btn--edit:hover {
+  background: #111;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.td-details-btn:active {
+  transform: translateY(0);
+}
+
 /* Icon button (admin) */
 .td-icon-btn {
   width: 34px;
