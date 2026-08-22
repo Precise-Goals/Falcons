@@ -1444,6 +1444,9 @@
   cursor: pointer;
   transition: all 0.18s ease;
   white-space: nowrap;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .td-details-btn--add {
@@ -1476,6 +1479,14 @@
   transform: translateY(0);
 }
 
+/* User actions in toolbar */
+.td-user-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 /* Icon button (admin) */
 .td-icon-btn {
   width: 34px;
@@ -1495,6 +1506,95 @@
 .td-icon-btn:hover {
   border-color: #aaa;
   color: #333;
+}
+
+/* ── Edit Profile Modal Styles ──────────────────────────── */
+.ep-overlay {
+  z-index: 500;
+}
+
+.ep-modal {
+  max-width: 680px;
+  max-height: 88vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ep-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--t-white);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.ep-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.ep-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ep-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ep-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ep-bio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.ep-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--t-border);
+}
+
+/* ── Onboarding Modal & Grid ────────────────────────────── */
+.ob-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ob-modal-overlay {
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.ob-modal-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ob-modal-close {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 650;
 }
 
 /* ── Active filter chips ─────────────────────────────────── */
@@ -2034,29 +2134,121 @@
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
+/* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 768px) {
   .td-site-frame {
-    padding: 1.5rem 5% 4rem;
+    padding: 1.25rem 4% 3.5rem;
   }
 
   .td-grid-site {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
   .td-toolbar-site {
+    display: flex;
     flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
   }
 
   .td-search-wrap-site {
     max-width: 100%;
     flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .td-filter-btn {
+    padding: 0.55rem 0.95rem;
+    font-size: 0.825rem;
+  }
+
+  .td-details-btn {
+    padding: 0.55rem 1rem;
+    font-size: 0.825rem;
+    gap: 0.35rem;
   }
 
   .fdock {
     max-height: 80vh;
     max-width: 100%;
   }
+
+  .t-overlay {
+    padding: 0.75rem;
+    align-items: center;
+  }
+
+  .t-modal {
+    border-radius: 20px;
+    max-height: 90vh;
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  .t-modal.t-modal-wide {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .t-modal.t-modal-wide.pm-root {
+    max-width: none;
+    width: 100% !important;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 1.5rem;
+  }
+
+  .pm-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .pm-sections {
+    max-height: 60vh;
+  }
+
+  /* Teams nav responsive */
+  .teams-nav {
+    padding: 1rem 1.25rem;
+  }
+
+  /* Toolbar wraps */
+  .td-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .td-search-wrap {
+    max-width: 100%;
+  }
+
+  /* Grid — single column on mobile */
+  .td-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Profile modal header stacks */
+  .pm-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.875rem;
+  }
+
+  /* Onboarding */
+  .ob-frame {
+    max-width: 100%;
+  }
+
+  /* The main site navbar on teams page */
+  .td-site-frame .navbar,
+  .navbar {
+    border-radius: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
 }
+
 .td-heading {
   display: none;
 }
@@ -2162,7 +2354,7 @@ button.td-icon-btn {
 .t-modal.t-modal-wide.pm-root {
   max-width: none;
   width: 100%;
-  margin: 5% 29%;
+  margin: 5% auto;
   border-radius: 4rem;
   padding: 2%;
 }
@@ -2172,11 +2364,7 @@ button.t-btn-icon.t-modal-close {
   right: 3%;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   RESPONSIVE ADDITIONS — Mobile-first overrides
-   ═══════════════════════════════════════════════════════════ */
-
-/* ── Admin panel & modals ────────────────────────────────── */
+/* ── Tablet & Small Desktop (<= 900px) ───────────────────── */
 @media (max-width: 900px) {
   .t-modal.admin-panel {
     max-height: 90vh;
@@ -2200,79 +2388,50 @@ button.t-btn-icon.t-modal-close {
   }
 }
 
-/* ── Profile modal ───────────────────────────────────────── */
-@media (max-width: 768px) {
-  .t-modal.t-modal-wide.pm-root {
-    max-width: none;
-    width: 95vw !important;
-    margin: 0;
-    border-radius: 20px;
-    padding: 1.5rem;
-  }
-
-  .pm-fields {
+/* ── Medium Mobile (<= 640px) ────────────────────────────── */
+@media (max-width: 640px) {
+  .ep-grid-2,
+  .ob-grid-2 {
     grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
 
-  .pm-sections {
-    max-height: 60vh;
-  }
-
-  .t-overlay {
-    padding: 0.5rem;
-    align-items: flex-end;
-  }
-
-  .t-modal {
-    border-radius: 20px 20px 0 0;
-    max-height: 90vh;
-  }
-
-  .t-modal.t-modal-wide.pm-root {
-    border-radius: 20px;
-  }
-
-  .td-site-frame {
-    padding: 1rem 4% 3rem;
-  }
-
-  /* Teams nav responsive */
-  .teams-nav {
-    padding: 1rem 1.25rem;
-  }
-
-  /* Toolbar wraps */
-  .td-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .td-search-wrap {
-    max-width: 100%;
-  }
-
-  /* Grid — single column on mobile */
-  .td-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Profile modal header stacks */
-  .pm-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.875rem;
-  }
-
-  /* Onboarding */
-  .ob-frame {
-    max-width: 100%;
+  .photo-upload-area {
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 }
 
-/* ── Small mobile ────────────────────────────────────────── */
+/* ── Small Mobile (<= 480px) ─────────────────────────────── */
 @media (max-width: 480px) {
   .td-grid {
     grid-template-columns: 1fr;
+  }
+
+  .td-toolbar-site {
+    gap: 0.4rem;
+  }
+
+  .td-filter-btn {
+    padding: 0.48rem 0.75rem;
+    font-size: 0.775rem;
+    gap: 0.3rem;
+  }
+
+  .td-details-btn {
+    padding: 0.48rem 0.75rem;
+    font-size: 0.775rem;
+    gap: 0.3rem;
+  }
+
+  .td-details-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .td-clear-btn {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.4rem;
   }
 
   .teams-nav {
@@ -2280,7 +2439,22 @@ button.t-btn-icon.t-modal-close {
   }
 
   .t-modal {
-    padding: 1.25rem;
+    padding: 1.25rem 1rem;
+  }
+
+  .ep-modal {
+    padding: 1.25rem 1rem;
+    max-height: 92vh;
+  }
+
+  .ep-actions {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+
+  .ep-actions .t-btn {
+    width: 100%;
+    justify-content: center;
   }
 
   .ob-step-indicator {
@@ -2303,14 +2477,22 @@ button.t-btn-icon.t-modal-close {
   }
 }
 
-/* ── Teams page Navbar overrides for site navbar ─────────── */
-/* When .navbar is shown on /teams page it needs full responsiveness too */
-@media (max-width: 768px) {
-  /* The main site navbar on teams page */
-  .td-site-frame .navbar,
-  .navbar {
-    border-radius: 0;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+/* ── Extra Small Mobile (<= 360px) ───────────────────────── */
+@media (max-width: 360px) {
+  .td-toolbar-site {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .td-filter-btn,
+  .td-details-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .td-user-actions {
+    margin-left: 0;
+    justify-content: flex-end;
   }
 }
 

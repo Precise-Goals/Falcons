@@ -11,9 +11,21 @@ const SKILLS = [
 ];
 
 const BRANCHES = [
-  "Computer Engineering", "Information Technology", "ENTC",
-  "Mechanical Engineering", "Civil Engineering", "Electrical Engineering",
-  "AI & Data Science", "Other",
+  "Artificial Intelligence and Data Science",
+  "Artificial Intelligence and Machine Learning",
+  "Civil Engineering",
+  "Computer Engineering",
+  "Computer Science and Engineering",
+  "Computer Science and Engineering (Data Science)",
+  "Computer Science and Engineering(AI)",
+  "Electrical Engineering",
+  "Electronics Engineering",
+  "Electronics and Computer Science Engineering",
+  "Electronics and Telecommunication Engineering",
+  "ENTC",
+  "Information Technology",
+  "Mechanical Engineering",
+  "Other",
 ];
 
 const YEARS = ["2024", "2025", "2026", "2027", "2028", "2029", "2030"];
@@ -60,7 +72,7 @@ const StepDots = ({ total, current }) => (
   </div>
 );
 
-export const OnboardingFlow = ({ onComplete }) => {
+export const OnboardingFlow = ({ onComplete, onCancel }) => {
   const { currentUser, refreshProfile } = useAuth();
   const [phase, setPhase] = useState("greeting"); // greeting | frames
   const [step, setStep] = useState(0);
@@ -97,7 +109,7 @@ export const OnboardingFlow = ({ onComplete }) => {
   // ── Greeting phase ────────────────────────────────────
   React.useEffect(() => {
     if (phase === "greeting") {
-      const t = setTimeout(() => setPhase("frames"), 2500);
+      const t = setTimeout(() => setPhase("frames"), 2200);
       return () => clearTimeout(t);
     }
   }, [phase]);
@@ -174,7 +186,7 @@ export const OnboardingFlow = ({ onComplete }) => {
       toast.success("Welcome to the Falcons!");
       onComplete();
     } catch {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong while completing profile");
     } finally {
       setSaving(false);
     }
@@ -273,11 +285,18 @@ export const OnboardingFlow = ({ onComplete }) => {
         </div>
       </div>
       <div className="ob-nav">
-        <span />
+        {onCancel ? (
+          <button className="t-btn t-btn-ghost" onClick={onCancel} type="button">
+            Cancel
+          </button>
+        ) : (
+          <span />
+        )}
         <button
           className="t-btn t-btn-primary"
           onClick={next}
           disabled={!f1.photoBase64 || !f1.fullName || !f1.contactNumber || !f1.gender}
+          type="button"
         >
           Next →
         </button>
@@ -366,7 +385,7 @@ export const OnboardingFlow = ({ onComplete }) => {
         </div>
       </div>
       <div className="ob-nav">
-        <button className="t-btn t-btn-ghost" onClick={back}>← Back</button>
+        <button className="t-btn t-btn-ghost" onClick={back} type="button">← Back</button>
         <button
           className="t-btn t-btn-primary"
           onClick={next}
@@ -378,6 +397,7 @@ export const OnboardingFlow = ({ onComplete }) => {
             f2.bio.trim().length < 175 ||
             f2.bio.trim().length > 250
           }
+          type="button"
         >
           Next →
         </button>
@@ -390,7 +410,7 @@ export const OnboardingFlow = ({ onComplete }) => {
       <h2 className="ob-title">Academic Records</h2>
       <p className="ob-subtitle">Help members filter by branch and batch.</p>
       <div className="ob-fields">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+        <div className="ob-grid-2">
           <div className="t-input-group">
             <label className="t-label">Passing Out Year *</label>
             <select
@@ -427,31 +447,34 @@ export const OnboardingFlow = ({ onComplete }) => {
             {BRANCHES.map((b) => <option key={b} value={b}>{b}</option>)}
           </select>
         </div>
-        <div className="t-input-group">
-          <label className="t-label">College / University *</label>
-          <input
-            className="t-input"
-            placeholder="NMIET, Pune"
-            value={f3.collegeName}
-            onChange={(e) => setF3((p) => ({ ...p, collegeName: e.target.value }))}
-          />
-        </div>
-        <div className="t-input-group">
-          <label className="t-label">City *</label>
-          <input
-            className="t-input"
-            placeholder="Pune"
-            value={f3.city}
-            onChange={(e) => setF3((p) => ({ ...p, city: e.target.value }))}
-          />
+        <div className="ob-grid-2">
+          <div className="t-input-group">
+            <label className="t-label">College / University *</label>
+            <input
+              className="t-input"
+              placeholder="NMIET, Pune"
+              value={f3.collegeName}
+              onChange={(e) => setF3((p) => ({ ...p, collegeName: e.target.value }))}
+            />
+          </div>
+          <div className="t-input-group">
+            <label className="t-label">City *</label>
+            <input
+              className="t-input"
+              placeholder="Pune"
+              value={f3.city}
+              onChange={(e) => setF3((p) => ({ ...p, city: e.target.value }))}
+            />
+          </div>
         </div>
       </div>
       <div className="ob-nav">
-        <button className="t-btn t-btn-ghost" onClick={back}>← Back</button>
+        <button className="t-btn t-btn-ghost" onClick={back} type="button">← Back</button>
         <button
           className="t-btn t-btn-primary"
           onClick={next}
           disabled={!f3.passingOutYear || !f3.branch || !f3.collegeName || !f3.city}
+          type="button"
         >
           Next →
         </button>
@@ -490,7 +513,7 @@ export const OnboardingFlow = ({ onComplete }) => {
             ))}
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+        <div className="ob-grid-2">
           <div className="t-input-group">
             <label className="t-label">Years of Coding *</label>
             <input
@@ -536,7 +559,7 @@ export const OnboardingFlow = ({ onComplete }) => {
         </div>
       </div>
       <div className="ob-nav">
-        <button className="t-btn t-btn-ghost" onClick={back}>← Back</button>
+        <button className="t-btn t-btn-ghost" onClick={back} type="button">← Back</button>
         <button
           className="t-btn t-btn-primary"
           onClick={next}
@@ -545,6 +568,7 @@ export const OnboardingFlow = ({ onComplete }) => {
             !f4.yearsOfExperience || f4.lookingForTeam === null ||
             f4.skills.length === 0
           }
+          type="button"
         >
           Next →
         </button>
@@ -589,11 +613,12 @@ export const OnboardingFlow = ({ onComplete }) => {
         </span>
       </label>
       <div className="ob-nav">
-        <button className="t-btn t-btn-ghost" onClick={back}>← Back</button>
+        <button className="t-btn t-btn-ghost" onClick={back} type="button">← Back</button>
         <button
           className="t-btn t-btn-primary"
           onClick={handleSubmit}
           disabled={!agreed || saving}
+          type="button"
         >
           {saving ? "Saving…" : "Enter the Falcons →"}
         </button>

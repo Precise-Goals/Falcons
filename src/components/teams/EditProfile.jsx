@@ -38,9 +38,8 @@ const BRANCHES = [
   "ENTC",
   "Information Technology",
   "Mechanical Engineering",
-  "Other"
+  "Other",
 ];
-
 
 const YEARS = ["2024", "2025", "2026", "2027", "2028", "2029", "2030"];
 
@@ -108,29 +107,80 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
 
   const handleSave = async () => {
     const trimmedBio = form.bio?.trim() || "";
-    if (!trimmedBio || trimmedBio.length < 175 || trimmedBio.length > 250) {
-      toast.error("Bio must be between 175 and 250 characters");
+    if (!form.fullName?.trim()) {
+      toast.error("Please enter your full name");
+      return;
+    }
+    if (!form.contactNumber?.trim()) {
+      toast.error("Please enter your contact number");
+      return;
+    }
+    if (!form.gender) {
+      toast.error("Please select your gender");
+      return;
+    }
+    if (!form.githubUsername?.trim()) {
+      toast.error("Please enter your GitHub username");
+      return;
+    }
+    if (!form.linkedinUrl?.trim()) {
+      toast.error("Please enter your LinkedIn profile URL");
+      return;
+    }
+    if (!form.discordId?.trim()) {
+      toast.error("Please enter your Discord ID");
+      return;
+    }
+    if (!trimmedBio) {
+      toast.error("Please enter a bio (minimum 175 characters)");
+      return;
+    }
+    if (trimmedBio.length < 175) {
+      toast.error(`Bio requires at least 175 characters (${trimmedBio.length}/250 entered)`);
+      return;
+    }
+    if (trimmedBio.length > 250) {
+      toast.error(`Bio must be at most 250 characters (${trimmedBio.length}/250 entered)`);
+      return;
+    }
+    if (!form.passingOutYear) {
+      toast.error("Please select your passing out year");
+      return;
+    }
+    if (!form.branch) {
+      toast.error("Please select your branch");
+      return;
+    }
+    if (!form.collegeName?.trim()) {
+      toast.error("Please enter your college / university name");
+      return;
+    }
+    if (!form.city?.trim()) {
+      toast.error("Please enter your city");
+      return;
+    }
+    if (!form.hackathonTier) {
+      toast.error("Please select your hackathon tier");
+      return;
+    }
+    if (!form.hackathonFrequency) {
+      toast.error("Please select your hackathon frequency");
       return;
     }
     if (
-      !form.fullName?.trim() ||
-      !form.contactNumber?.trim() ||
-      !form.gender ||
-      !form.githubUsername?.trim() ||
-      !form.linkedinUrl?.trim() ||
-      !form.discordId?.trim() ||
-      !form.passingOutYear ||
-      !form.branch ||
-      !form.collegeName?.trim() ||
-      !form.city?.trim() ||
-      !form.hackathonTier ||
-      !form.hackathonFrequency ||
       form.yearsOfExperience === "" ||
       form.yearsOfExperience === undefined ||
-      form.lookingForTeam === null ||
-      !(form.skills?.length > 0)
+      form.yearsOfExperience === null
     ) {
-      toast.error("Please fill in all required fields");
+      toast.error("Please enter your coding experience in years");
+      return;
+    }
+    if (form.lookingForTeam === null || form.lookingForTeam === undefined) {
+      toast.error("Please select if you are looking for a team");
+      return;
+    }
+    if (!form.skills || form.skills.length === 0) {
+      toast.error("Please select at least one skill or domain");
       return;
     }
 
@@ -157,13 +207,15 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
         skills: form.skills || [],
         yearsOfExperience: Number(form.yearsOfExperience),
         lookingForTeam: form.lookingForTeam,
+        onboardingComplete: true,
         updatedAt: serverTimestamp(),
       });
       await refreshProfile();
-      toast.success("Saved");
+      toast.success("Profile saved successfully");
       onSaved();
-    } catch {
-      toast.error("Something went wrong");
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      toast.error("Something went wrong while saving");
     } finally {
       setSaving(false);
     }
@@ -171,39 +223,25 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
 
   return (
     <div
-      className="t-overlay"
+      className="t-overlay ep-overlay"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div
-        className="t-modal t-modal-wide"
-        style={{ maxHeight: "88vh", overflowY: "auto" }}
-      >
-        <button className="t-btn-icon t-modal-close" onClick={onClose}>
+      <div className="t-modal t-modal-wide ep-modal">
+        <button
+          className="t-btn-icon t-modal-close"
+          onClick={onClose}
+          aria-label="Close"
+        >
           ✕
         </button>
 
-        <h2
-          style={{
-            fontSize: "1.1rem",
-            fontWeight: 600,
-            color: "var(--t-white)",
-            marginBottom: "1.5rem",
-          }}
-        >
-          Edit Profile
-        </h2>
+        <h2 className="ep-modal-title">Edit Profile</h2>
 
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}
-        >
+        <div className="ep-form-body">
           {/* Personal */}
-          <section>
-            <div className="pm-section-title" style={{ marginBottom: "1rem" }}>
-              Personal
-            </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-            >
+          <section className="ep-section">
+            <div className="pm-section-title">Personal</div>
+            <div className="ep-fields">
               {/* Photo */}
               <div className="t-input-group">
                 <label className="t-label">Profile Photo</label>
@@ -239,15 +277,10 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   />
                 </div>
               </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "1rem",
-                }}
-              >
+
+              <div className="ep-grid-2">
                 <div className="t-input-group">
-                  <label className="t-label">Full Name</label>
+                  <label className="t-label">Full Name *</label>
                   <input
                     className="t-input"
                     value={form.fullName || ""}
@@ -255,7 +288,7 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   />
                 </div>
                 <div className="t-input-group">
-                  <label className="t-label">Contact Number</label>
+                  <label className="t-label">Contact Number *</label>
                   <input
                     className="t-input"
                     type="tel"
@@ -264,8 +297,9 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   />
                 </div>
               </div>
+
               <div className="t-input-group">
-                <label className="t-label">Gender</label>
+                <label className="t-label">Gender *</label>
                 <div className="t-pill-group">
                   {["Male", "Female", "Prefer not to say"].map((g) => (
                     <button
@@ -283,22 +317,12 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
           </section>
 
           {/* Social */}
-          <section>
-            <div className="pm-section-title" style={{ marginBottom: "1rem" }}>
-              Social
-            </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-            >
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "1rem",
-                }}
-              >
+          <section className="ep-section">
+            <div className="pm-section-title">Social</div>
+            <div className="ep-fields">
+              <div className="ep-grid-2">
                 <div className="t-input-group">
-                  <label className="t-label">GitHub Username</label>
+                  <label className="t-label">GitHub Username *</label>
                   <input
                     className="t-input"
                     placeholder="octocat"
@@ -307,39 +331,38 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   />
                 </div>
                 <div className="t-input-group">
-                  <label className="t-label">Discord ID</label>
+                  <label className="t-label">Discord ID *</label>
                   <input
                     className="t-input"
+                    placeholder="username or username#1234"
                     value={form.discordId || ""}
                     onChange={(e) => set("discordId", e.target.value)}
                   />
                 </div>
               </div>
+
               <div className="t-input-group">
-                <label className="t-label">LinkedIn URL</label>
+                <label className="t-label">LinkedIn URL *</label>
                 <input
                   className="t-input"
+                  placeholder="https://linkedin.com/in/..."
                   value={form.linkedinUrl || ""}
                   onChange={(e) => set("linkedinUrl", e.target.value)}
                 />
               </div>
+
               <div className="t-input-group">
                 <label className="t-label">Instagram Handle (optional)</label>
                 <input
                   className="t-input"
+                  placeholder="@yourhandle"
                   value={form.instagramHandle || ""}
                   onChange={(e) => set("instagramHandle", e.target.value)}
                 />
               </div>
+
               <div className="t-input-group">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "baseline",
-                    marginBottom: "0.25rem",
-                  }}
-                >
+                <div className="ep-bio-header">
                   <label className="t-label" style={{ marginBottom: 0 }}>
                     Bio (175–250 chars) *
                   </label>
@@ -391,22 +414,12 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
           </section>
 
           {/* Academic */}
-          <section>
-            <div className="pm-section-title" style={{ marginBottom: "1rem" }}>
-              Academic
-            </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-            >
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "1rem",
-                }}
-              >
+          <section className="ep-section">
+            <div className="pm-section-title">Academic</div>
+            <div className="ep-fields">
+              <div className="ep-grid-2">
                 <div className="t-input-group">
-                  <label className="t-label">Passing Out Year</label>
+                  <label className="t-label">Passing Out Year *</label>
                   <select
                     className="t-input t-select"
                     value={form.passingOutYear || ""}
@@ -428,13 +441,15 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                     min="0"
                     max="10"
                     step="0.01"
+                    placeholder="8.50"
                     value={form.cgpa || ""}
                     onChange={(e) => set("cgpa", e.target.value)}
                   />
                 </div>
               </div>
+
               <div className="t-input-group">
-                <label className="t-label">Branch</label>
+                <label className="t-label">Branch *</label>
                 <select
                   className="t-input t-select"
                   value={form.branch || ""}
@@ -448,25 +463,22 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   ))}
                 </select>
               </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "1rem",
-                }}
-              >
+
+              <div className="ep-grid-2">
                 <div className="t-input-group">
-                  <label className="t-label">College / University</label>
+                  <label className="t-label">College / University *</label>
                   <input
                     className="t-input"
+                    placeholder="NMIET, Pune"
                     value={form.collegeName || ""}
                     onChange={(e) => set("collegeName", e.target.value)}
                   />
                 </div>
                 <div className="t-input-group">
-                  <label className="t-label">City</label>
+                  <label className="t-label">City *</label>
                   <input
                     className="t-input"
+                    placeholder="Pune"
                     value={form.city || ""}
                     onChange={(e) => set("city", e.target.value)}
                   />
@@ -476,28 +488,18 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
           </section>
 
           {/* Experience */}
-          <section>
-            <div className="pm-section-title" style={{ marginBottom: "1rem" }}>
-              Experience
-            </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-            >
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "1rem",
-                }}
-              >
+          <section className="ep-section">
+            <div className="pm-section-title">Experience</div>
+            <div className="ep-fields">
+              <div className="ep-grid-2">
                 <div className="t-input-group">
-                  <label className="t-label">Hackathon Tier</label>
+                  <label className="t-label">Hackathon Tier *</label>
                   <select
                     className="t-input t-select"
                     value={form.hackathonTier || ""}
                     onChange={(e) => set("hackathonTier", e.target.value)}
                   >
-                    <option value="">Select</option>
+                    <option value="">Select tier</option>
                     {TIERS.map((t) => (
                       <option key={t.value} value={t.value}>
                         {t.label}
@@ -506,19 +508,21 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   </select>
                 </div>
                 <div className="t-input-group">
-                  <label className="t-label">Years Coding</label>
+                  <label className="t-label">Years Coding *</label>
                   <input
                     className="t-input"
                     type="number"
                     min="0"
                     max="20"
-                    value={form.yearsOfExperience || ""}
+                    placeholder="2"
+                    value={form.yearsOfExperience !== undefined ? form.yearsOfExperience : ""}
                     onChange={(e) => set("yearsOfExperience", e.target.value)}
                   />
                 </div>
               </div>
+
               <div className="t-input-group">
-                <label className="t-label">How often do you participate?</label>
+                <label className="t-label">How often do you participate? *</label>
                 <div className="t-pill-group">
                   {["Rarely", "Monthly", "Weekly"].map((f) => (
                     <button
@@ -532,8 +536,9 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   ))}
                 </div>
               </div>
+
               <div className="t-input-group">
-                <label className="t-label">Looking for Team?</label>
+                <label className="t-label">Looking for Team? *</label>
                 <div className="t-pill-group">
                   {[true, false].map((v) => (
                     <button
@@ -547,8 +552,9 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
                   ))}
                 </div>
               </div>
+
               <div className="t-input-group">
-                <label className="t-label">Skills & Domains</label>
+                <label className="t-label">Skills & Domains * (select all that apply)</label>
                 <div className="t-pill-group" style={{ marginTop: "0.25rem" }}>
                   {SKILLS.map((s) => (
                     <button
@@ -566,46 +572,15 @@ export const EditProfile = ({ profile, onClose, onSaved }) => {
           </section>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "0.75rem",
-            marginTop: "2rem",
-            paddingTop: "1.25rem",
-            borderTop: "1px solid var(--t-border)",
-          }}
-        >
-          <button className="t-btn t-btn-ghost" onClick={onClose}>
+        <div className="ep-actions">
+          <button className="t-btn t-btn-ghost" onClick={onClose} type="button">
             Cancel
           </button>
           <button
             className="t-btn t-btn-primary"
             onClick={handleSave}
-            disabled={
-              saving ||
-              !form.bio ||
-              form.bio.trim().length < 175 ||
-              form.bio.trim().length > 250 ||
-              !form.fullName?.trim() ||
-              !form.contactNumber?.trim() ||
-              !form.gender ||
-              !form.githubUsername?.trim() ||
-              !form.linkedinUrl?.trim() ||
-              !form.discordId?.trim() ||
-              !form.passingOutYear ||
-              !form.branch ||
-              !form.collegeName?.trim() ||
-              !form.city?.trim() ||
-              !form.hackathonTier ||
-              !form.hackathonFrequency ||
-              form.yearsOfExperience === "" ||
-              form.yearsOfExperience === undefined ||
-              form.yearsOfExperience === null ||
-              form.lookingForTeam === null ||
-              form.lookingForTeam === undefined ||
-              !(form.skills?.length > 0)
-            }
+            disabled={saving}
+            type="button"
           >
             {saving ? "Saving…" : "Save Changes"}
           </button>

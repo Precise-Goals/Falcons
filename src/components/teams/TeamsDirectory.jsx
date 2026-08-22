@@ -4,6 +4,7 @@ import { db } from "../../firebase";
 import { useAuth } from "../../context/AuthContext";
 import { ProfileModal } from "./ProfileModal";
 import { EditProfile } from "./EditProfile";
+import { OnboardingFlow } from "./OnboardingFlow";
 import { AdminPanel } from "./AdminPanel";
 import toast from "react-hot-toast";
 
@@ -19,9 +20,21 @@ const ALL_SKILLS = [
 const ALL_TIERS = ["Beginner", "Elite", "Master", "Expert", "Grandmaster"];
 
 const ALL_BRANCHES = [
-  "Computer Engineering", "Information Technology", "ENTC",
-  "Mechanical Engineering", "Civil Engineering", "Electrical Engineering",
-  "AI & Data Science", "Other",
+  "Artificial Intelligence and Data Science",
+  "Artificial Intelligence and Machine Learning",
+  "Civil Engineering",
+  "Computer Engineering",
+  "Computer Science and Engineering",
+  "Computer Science and Engineering (Data Science)",
+  "Computer Science and Engineering(AI)",
+  "Electrical Engineering",
+  "Electronics Engineering",
+  "Electronics and Computer Science Engineering",
+  "Electronics and Telecommunication Engineering",
+  "ENTC",
+  "Information Technology",
+  "Mechanical Engineering",
+  "Other",
 ];
 
 const EMPTY_FILTERS = {
@@ -251,6 +264,7 @@ export const TeamsDirectory = () => {
   const [selected, setSelected] = useState(null);
   const [editing, setEditing] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({ ...EMPTY_FILTERS });
@@ -260,7 +274,7 @@ export const TeamsDirectory = () => {
     if (!currentUser) {
       openAuthModal();
     } else if (!userProfile?.onboardingComplete) {
-      refreshProfile();
+      setShowOnboarding(true);
     } else {
       const myProfile = members.find((m) => m.uid === currentUser.uid) || userProfile;
       setSelected(myProfile);
@@ -394,12 +408,7 @@ export const TeamsDirectory = () => {
         </button>
 
         {/* User actions */}
-        <div style={{ marginLeft: "auto", display: "flex", gap: "0.5rem", alignItems: "center" }}>
-          {/* {userProfile?.fullName && (
-            <span style={{ fontSize: "0.825rem", color: "#666", fontFamily: "Montserrat" }}>
-              {userProfile.fullName.split(" ")[0]}
-            </span>
-          )} */}
+        <div className="td-user-actions">
           {isAdmin && (
             <button
               className="td-icon-btn"
@@ -499,6 +508,33 @@ export const TeamsDirectory = () => {
             setSelected(null);
           }}
         />
+      )}
+
+      {/* Onboarding flow triggered by Add your details button */}
+      {showOnboarding && (
+        <div
+          className="t-overlay ob-modal-overlay"
+          style={{ zIndex: 600, padding: 0 }}
+        >
+          <div className="ob-modal-container">
+            <button
+              className="t-btn-icon t-modal-close ob-modal-close"
+              onClick={() => setShowOnboarding(false)}
+              aria-label="Close"
+              title="Close"
+            >
+              ✕
+            </button>
+            <OnboardingFlow
+              onComplete={async () => {
+                await fetchMembers();
+                await refreshProfile();
+                setShowOnboarding(false);
+              }}
+              onCancel={() => setShowOnboarding(false)}
+            />
+          </div>
+        </div>
       )}
 
       {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} />}
